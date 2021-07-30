@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function($document, $httpParamSerializer, $location, $scope, $rootScope, $window, spUtil, i18n) {
+	/* widget controller */
+	var c = this;
+	var section = document.getElementsByTagName('section')[0];
+
+	$scope.initFetchCode = function(){
+		//Set navbar size on load to big
+		$scope.navbar = 'navbar-big';
+
+		//Listen for scroll event and trigger resize
+		if (section){
+			section.onscroll = function() {
+				$scope.scrollFunction(section);
+			};
+		}
+
+		//Define Application Scope picker list
+		$.ajax('/api/now/ui/concoursepicker/application',
+					 {
+			method: "GET",
+			headers: {
+				'X-UserToken': c.data.user_session_token
+			}
+		})
+			.done(function checkIfScopeAccessIsAllowed(response) {
+			c.scopeList = response.result.list;
+		}
+					 );
+
+		//Set initial model values
+		c.searchTerms = c.data.searchTerms;
+		c.searchType = c.data.searchType;
+		c.searchQuery = c.data.searchQuery;
+	};
+
+	$scope.scrollFunction = function(e){
+		if(e.scrollTop >= 12 && $scope.navbar != 'navbar-small'){
+			$scope.navbar = 'navbar-small';
+			$scope.$apply();
+		}else if(e.scrollTop < 12 && $scope.navbar != 'navbar-big'){
+			$scope.navbar = 'navbar-big';
+			$scope.$apply();
+		}
+	};
+
+	c.backToTop = function(){
+		section.scrollTop = 0;
+	};
+
+	//Event listeners that trigger when Code/Fetch mode buttons are pressed
+	//Broadcast these events to FetchCode Results and FetchCode Background Script widgets
+	c.enableCodeMode = function(){
+		c.fetchMode = false;
+		$rootScope.$broadcast('enableCodeMode');
+	};
+
+	c.enableFetchMode = function(){
+		c.fetchMode = true;
+		$rootScope.$broadcast('enableFetchMode');
+	};
+
+	//Define value of previousUrl to initial url on load
+	var previousUrl = $location.absUrl();
+
+	//Angular event to change url
+	$rootScope.$on("$locationChangeStart", function(e, newUrl){
+		var urlParms = $location.search();
+		var search = urlParms.search ? urlParms.search+'' : '';
+		var query = urlParms.query ? urlParms.query+'' : '';
+
+		var sys_id = urlParms.sys_id ? urlParms.sys_id+'' : null;
+		var table = urlParms.table ? urlParms.table+'' : null;
+
+		if(newUrl != previousUrl){
+			
+			//Do not broadcast to FetchCode Form widget if there is not a table or sys_id param
+			if(sys_id != null || table != null){
+				$rootScope.$broadcast("fetchCodeEdit", sys_id, table);
+			}
+			//Prevent 'All' queries (queries without a search or query parameter)
+			if(search != '' || query !=''){
+				$rootScope.$broadcast("fetchCodeSearch");
+			}
+
+			$window.history.replaceState(newUrl, $document.title, newUrl);
+		}
+
+		e.preventDefault();
+	});
+
+	$rootScope.$on("fetchCodeUpdateUrl", function(e,newParms){
+		var params = {
+			'id': c.data.spPage,
+			'search': c.data.searchTerms,
+			'type': c.data.searchType,
+			'query': c.data.searchQuery,
+			'table': newParms.table,
+			'sys_id': newParms.sys_id
+		};
+
+		//triggers the $locationChangeStart event
+		previousUrl = $location.absUrl();
+		$location.search($httpParamSerializer(params));
+	});
+
+	c.performSearch = function(){
+		var currentParams = $location.search();
+		var params = {
+			'id': c.data.spPage,
+			'search': c.searchTerms,
+			'type': c.searchType,
+			'query': c.searchQuery
+		};
+		
+		//If FetchCode Form is displaying a record, keep these params in the URL
+		if(currentParams.sys_id && currentParams.table){
+			params.sys_id = currentParams.sys_id;
+			params.table = currentParams.table;
+		}
+
+		//triggers the $locationChangeStart event
+		previousUrl = $location.absUrl();
+		$location.search($httpParamSerializer(params));
+		c.enableFetchMode();
+
+		c.data.searchTerms = c.searchTerms;
+		c.data.searchType = c.searchType;
+		c.data.searchQuery = c.searchQuery;
+		c.server.update();
+	};
+
+	c.fetchMode = true;
+
+	c.createNewUpdateSet = function(){
+		c.data.newUpdateSet = prompt('Name the new update set');
+		c.server.update().then(function(response){
+			c.data.newUpdateSet = null;
+		});
+	};
+	
+	c.scopeChange = function(){
+		//Update the FetchCode Form widget that scope has changed and update server
+		$rootScope.$broadcast('fetchScopeChange');
+		c.server.update();
+	};
+	
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css>@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&amp;display=swap');
+
+#fc-heading {
+  display: inline-block;
+  font-family: 'Roboto Slab', sans-serif;
+  margin-top: 0;
+  transition: 0.4s;
+}
+
+#fetch-heading {
+  margin-top: 10px;
+  font-weight: 700;
+  transition: 0.4s;
+}
+
+#code-heading {
+  margin-top: 10px;
+  font-weight: 400;
+  transition: 0.4s;
+}
+
+input, button, select, textarea, .radio-inline, .checkbox-inline {
+  margin-bottom: 10px;
+}
+
+#create-update-set-btn {
+  min-width: 60%;
+}
+
+#fetch-code-btn, #code-mode-btn, #fetch-btn{
+ width: 45%;
+}
+
+#code-mode-btn {
+  float: right;
+}
+
+.btn-container {
+  padding-top: 20px;
+}
+
+.radio-inline {
+  padding-top: 5px
+}
+
+#fc-nav {
+  background-color: #EEEFF0;
+  overflow: hidden;
+  transition: 0.4s; /* Adds a transition effect when the padding is decreased */
+  position: fixed; /* Sticky/fixed navbar */
+  width: 100%;
+  margin-left: -15px; /* Take up full width */
+  top: 0; /* At the top */
+  z-index: 1000; 
+  box-shadow: 0 .25rem .5rem rgba(0,0,0,.1)!important
+}
+
+.navbar-big {
+  min-height: 190px;
+  width: 100%;
+}
+
+.navbar-small {
+  min-height: 140px;
+}
+
+.navbar-big &gt; div &gt; h1 &gt; #fetch-heading, .navbar-big &gt; div &gt; h1 &gt; #code-heading {
+  font-size: 2em;
+}
+
+.navbar-small &gt; div &gt; h1 &gt; #fetch-heading, .navbar-small &gt; div &gt; h1 &gt; #code-heading {
+  font-size: 0.5em;
+}
+
+.navbar-small &gt; div &gt; #fc-heading {
+  padding-left: 15px;
+}
+
+.navbar-big &gt; div &gt; #fc-heading {
+  padding-left: 0;
+}
+
+.navbar-small &gt; #fc-nav-container {
+  margin-bottom: 10px;
+  background-color: #0C1B21;
+  color: #EEEFF0;
+  text-align: left;
+}
+
+.navbar-big &gt; #fc-nav-container {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  background-color: #EEEFF0;
+  color: #0C1B21;
+  text-align: center;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>fetchcode-controller</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+	
+}]]></link>
+        <name>FetchCode Controller</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
+	function getUpdateSets() {
+		var updateSetGr = new GlideRecord("sys_update_set");
+		if (!updateSetGr.canRead()) {
+			// Secured
+			gs.logWarning("Security restricted: cannot read", "UpdateSetAjax.getUpdateSets");
+			return;
+		}
+
+		var us = new GlideUpdateSet();
+		var currentSet = us.getOrCreate();
+
+
+		updateSetGr.orderBy('name');
+		updateSetGr.addQuery('application.scope', gs.getCurrentApplicationScope());
+		updateSetGr.addQuery('state', 'in progress');
+		updateSetGr.query();
+
+		var updateSets = [];
+
+		while (updateSetGr.next()) {
+			updateSets.push(
+				{'name' : updateSetGr.getValue('name'),
+				 'sys_id' : updateSetGr.getValue('sys_id')
+				}
+			);
+		}
+		return updateSets;
+	}
+
+	if(!input){
+		var session = gs.getSession();
+		var token = gs.getSessionToken() ? gs.getSessionToken() : session.getSessionToken();
+		data.user_session_token = token;
+
+		data.updateSets = getUpdateSets();
+		data.currentUpdateSet = global.UpdateSetAPI().getCurrentUpdateSetID().toString();		
+
+		data.searchTerms = $sp.getParameter('search') ? $sp.getParameter('search') + '' : '';
+		data.searchType = $sp.getParameter('type') ? $sp.getParameter('type') + '' : 'And';
+		data.searchQuery = $sp.getParameter('query') ? $sp.getParameter('query')+'' : '';
+		data.spPage = $sp.getParameter('id');	
+
+		data.currentScopeSysId = gs.getCurrentApplicationId();
+		data.scopeList = {};
+		var sysScope = new GlideRecord('sys_scope');
+		sysScope.addActiveQuery();
+		sysScope.query();
+		while(sysScope.next()){
+			data.scopeList[sysScope.scope+''] = {
+				'name': sysScope.name+'',
+				'sys_id' : sysScope.getUniqueValue()
+			};
+		}
+
+		data.httpStatusErrorMsg = gs.getMessage('Failed to determine if application scope is accessible. HTTP Status');
+		data.notAllowedSwitchScopeMsg = gs.getMessage('Not allowed to switch to this application scope');
+	}
+
+	if(input){
+		if(input.currentUpdateSet){
+			var gus =	new GlideUpdateSet();
+			gus.set(input.currentUpdateSet);
+		}
+
+		if(input.newUpdateSet){
+			global.UpdateSetAPI().insertUpdateSetAsCurrent(input.newUpdateSet);
+			data.updateSets = getUpdateSets();
+			data.currentUpdateSet = global.UpdateSetAPI().getCurrentUpdateSetID().toString();
+		}
+
+		if(input.currentScopeSysId){
+			gs.setCurrentApplicationId(input.currentScopeSysId);
+			data.updateSets = getUpdateSets();
+			data.currentUpdateSet = global.UpdateSetAPI().getCurrentUpdateSetID().toString();
+		}
+	}
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>josh.virelli</sys_created_by>
+        <sys_created_on>2019-05-20 21:08:40</sys_created_on>
+        <sys_id>e1308c25dba9bb0044275011ce9619f3</sys_id>
+        <sys_mod_count>242</sys_mod_count>
+        <sys_name>FetchCode Controller</sys_name>
+        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sp_widget_e1308c25dba9bb0044275011ce9619f3</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:57:31</sys_updated_on>
+        <template><![CDATA[<div ng-class="navbar" id="fc-nav" ng-init="initFetchCode()">
+  <div class="col-lg-12" id="fc-nav-container">
+    <h1 id="fc-heading"><span id="fetch-heading">&#60;Fetch</span><span id="code-heading">Code&#47;&#62;</span></h1>
+  </div>
+  <div class="col-lg-12" ng-if="c.fetchMode == true">
+    <div class="col-lg-4 col-md-4 col-sm-8">
+      <small>${Comma separated list of terms to search for}:</small>
+      <input placeholder="Example: event.name, hardToFindFunction()" 
+             required="required" 
+             ng-model="c.searchTerms" 
+             ng-keypress="($event.charCode==13)? c.performSearch() : return" 
+             class="form-control">
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-4">
+      <div>
+        <small>${Query type based on search terms}</small>
+      </div>
+      <label class="radio-inline"><input type="radio" name="searchType" value="And" ng-model="c.searchType" checked>${And}</label>
+      <label class="radio-inline"><input type="radio" name="searchType" value="Or" ng-model="c.searchType">${Or}</label>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-8">
+      <small>${Additional query to add to search terms, in an encoded query format}:</small>
+      <input placeholder="Example: active=true^sys_created_by=admin" 
+             ng-model="c.searchQuery" 
+             ng-keypress="($event.charCode==13)? c.performSearch() : return" 
+             class="form-control">
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-4 btn-container">
+      <button class="btn btn-primary" id="fetch-btn" ng-click="c.performSearch()">${Fetch}</button>
+      <button class="btn btn-warning" ng-if="c.fetchMode == true" id="code-mode-btn" ng-click="c.enableCodeMode()">CodeMode
+      </button>
+    </div>
+  </div>
+
+
+  <div class="col-lg-12" ng-if="c.fetchMode == false">
+    <div class="col-lg-4 col-md-4 col-sm-8">
+      <small>${Current update set}:</small>
+      <select class="form-control"
+              ng-options="set.sys_id as set.name for set in data.updateSets"
+              ng-model="c.data.currentUpdateSet"
+              ng-init="c.data.currentUpdateSet"
+              ng-change="c.server.update()">
+      </select>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-4 btn-container">
+      <button class="btn btn-primary" id="create-update-set-btn" ng-click="c.createNewUpdateSet()">${Create new Update Set}
+      </button>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-8">
+      <small>${Current scope}: {{data.currentScope}}</small>
+      <select class="form-control"
+              ng-options="list.sysId as list.name for list in c.scopeList"
+              ng-model="c.data.currentScopeSysId"
+              ng-init="c.data.currentScopeSysId"
+              ng-change="c.scopeChange()">
+      </select>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-4 btn-container">
+      <button class="btn btn-info fetch-mode-btn" ng-if="c.fetchMode == false" ng-click="c.enableFetchMode()">FetchMode
+      </button>
+    </div>
+  </div>
+</div>]]></template>
+    </sp_widget>
+</record_update>

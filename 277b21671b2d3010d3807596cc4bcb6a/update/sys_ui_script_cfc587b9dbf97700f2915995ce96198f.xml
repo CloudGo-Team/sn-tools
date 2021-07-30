@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_script">
+    <sys_ui_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>Inject the FetchCode icon into the ServiceNow UI&#13;
+&#13;
+Credit goes to James at whitespace.io for creating this script.</description>
+        <global>true</global>
+        <name>fetchcode_banner_link</name>
+        <script><![CDATA[function fetchcode_banner_link () {
+	if (typeof jQuery === 'function' && typeof top.$j === 'function') {
+		jQuery(document).ready(function () {
+			var top = window.top;
+
+			if (typeof top.snd_fetchcode_loaded != 'undefined') {
+				return;
+			}
+			top.snd_fetchcode_loaded = true;
+
+			var hasAdmin = (function () {
+				try {
+					var roles;
+					if (typeof top.NOW == 'object') {
+						roles = top.NOW.user.roles.split(',');
+					} else if (typeof window.g_user == 'object' && window.g_user.roles) {
+						roles = window.g_user.roles;
+					}
+					if (!roles) return false;
+					for (var i = roles.length - 1; i > -1; i--) {
+						if (roles[i] == 'admin') return true;
+					}
+				} catch (e) {
+					jslog('Error with snd_fetchcode script finding user roles: ' + e);
+				}
+				return false;
+			})();
+
+			var isUI16 = top.$j('.navpage-header-content').length > 0;
+
+			var title = "FetchCode";
+
+			var widgetHtml;
+
+			if (hasAdmin) {
+
+				// UI16 - Geneva
+				if (isUI16) {
+					widgetHtml = '<div class="navpage-header-content">' +
+						'<button data-placement="auto" class="btn btn-icon icon-code"' +
+						' title="' + title + '" data-original-title="FetchCode" onclick="window.open(\'/$sp.do?id=fetchcode\', \'_blank\');">' +
+						'<span class="sr-only">FetchCode</span>' +
+						'</button></div>';
+					top.$j('#sysparm_search').parents('div.navpage-header-content').first().after(widgetHtml);
+				}
+
+				// UI15 - Fuji
+				else {
+					widgetHtml = '<span id="snd_fetchcode_span" ' +
+						'style="visibility: visible; display: inline-block; zoom: 1; vertical-align: middle;">' +
+						'<span tabindex="0" onclick="window.open(\'/$sp.do?id=fetchcode\', \'_blank\');"' +
+						' class="icon-code sn-tooltip-basic"' +
+						' style="cursor: pointer; font-size: 20px; border: 0;"' +
+						' title="' + title + '"><span class="sr-only">' + title +
+						'</span></span></span>';
+					top.$j('#nav_header_stripe_decorations_left').append(widgetHtml);
+				}
+
+			}
+		});
+	}
+}
+fetchcode_banner_link();]]></script>
+        <script_name/>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>josh.virelli</sys_created_by>
+        <sys_created_on>2019-06-03 15:30:44</sys_created_on>
+        <sys_id>cfc587b9dbf97700f2915995ce96198f</sys_id>
+        <sys_mod_count>8</sys_mod_count>
+        <sys_name>fetchcode_banner_link</sys_name>
+        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sys_ui_script_cfc587b9dbf97700f2915995ce96198f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:57:31</sys_updated_on>
+        <ui_type>0</ui_type>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+</record_update>

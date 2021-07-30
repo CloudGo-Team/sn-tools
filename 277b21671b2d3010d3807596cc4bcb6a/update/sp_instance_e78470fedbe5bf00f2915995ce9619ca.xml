@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_instance">
+    <sp_instance action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <class_name/>
+        <color>default</color>
+        <css/>
+        <glyph/>
+        <id/>
+        <order>1</order>
+        <roles/>
+        <short_description/>
+        <size>md</size>
+        <sp_column display_value="1">efdd04eddba9bb0044275011ce9619d6</sp_column>
+        <sp_widget display_value="FetchCode Background Script">e9fe8021dbe9bb0044275011ce9619ba</sp_widget>
+        <sys_class_name>sp_instance</sys_class_name>
+        <sys_created_by>josh.virelli</sys_created_by>
+        <sys_created_on>2019-05-24 21:14:34</sys_created_on>
+        <sys_id>e78470fedbe5bf00f2915995ce9619ca</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>FetchCode Background Script</sys_name>
+        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sp_instance_e78470fedbe5bf00f2915995ce9619ca</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:57:32</sys_updated_on>
+        <title>FetchCode Background Script</title>
+        <url/>
+        <widget_parameters/>
+    </sp_instance>
+    <sys_translated_text action="delete_multiple" query="documentkey=e78470fedbe5bf00f2915995ce9619ca"/>
+</record_update>

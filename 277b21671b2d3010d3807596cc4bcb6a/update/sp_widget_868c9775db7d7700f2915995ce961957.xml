@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function() {
+	/* widget controller */
+	var c = this;
+	var section = document.getElementsByTagName('section')[0];
+	c.backToTop = function(){
+		section.scrollTop = 0;
+	};
+
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css>#fc-footer {
+  position: fixed;
+  width: 100%;
+  margin-left: -15px;
+  bottom: 0;
+  color: #717171;
+  height: 50px;
+  background-color: #f1f1f1;
+  z-index: 1000;
+}
+
+#fc-links {
+  text-align: right;
+  padding-top: 15px;
+
+  &gt; a {
+    font-weight: 700;
+    color: $primary;
+  }
+}
+
+.fc-link-separator {
+  padding: 0 10px;
+}
+
+#fc-back-to-top {
+  text-align: center;
+  padding-top: 11px;
+  font-size: 20px;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>fetchcode-footer</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>FetchCode Footer</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>josh.virelli</sys_created_by>
+        <sys_created_on>2019-06-03 17:14:33</sys_created_on>
+        <sys_id>868c9775db7d7700f2915995ce961957</sys_id>
+        <sys_mod_count>22</sys_mod_count>
+        <sys_name>FetchCode Footer</sys_name>
+        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sp_widget_868c9775db7d7700f2915995ce961957</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:57:30</sys_updated_on>
+        <template><![CDATA[<div id="fc-footer">
+  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+  </div>
+  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" id= "fc-back-to-top">
+		<i class="fa fa-chevron-up" ng-click="c.backToTop()" data-toggle="tooltip" title="Back to Top"></i>
+  </div>
+  <div id="fc-links" class="col-lg-5 col-md-5 col-sm-5 col-xs-5 hidden-xs">
+    <span>${Developed by} </span>
+    <a href="https://www.cloudpires.com" target="_blank">CloudPires</a>
+    <span class="fc-link-separator">|</span>
+    <a href="https://developer.servicenow.com/dev_app.do#!/share/contents/1176688_fetchcode_an_instance_code_search_utility?v=1.03&amp;t=DISCUSSIONS" target="_blank">${Feedback}</a>
+  </div>
+</div>]]></template>
+    </sp_widget>
+</record_update>

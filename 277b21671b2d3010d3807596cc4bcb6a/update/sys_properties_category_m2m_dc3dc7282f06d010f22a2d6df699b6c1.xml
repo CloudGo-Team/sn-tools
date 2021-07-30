@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category_m2m">
+    <sys_properties_category_m2m action="INSERT_OR_UPDATE">
+        <category display_value="FetchCode Properties">1bfc07282f06d010f22a2d6df699b6e7</category>
+        <order>200</order>
+        <property display_value="fetchcode.specificFieldMapping" name="fetchcode.specificFieldMapping">fe347b73db28d740497856f3ce961951</property>
+        <sys_class_name>sys_properties_category_m2m</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-07-13 21:28:39</sys_created_on>
+        <sys_id>dc3dc7282f06d010f22a2d6df699b6c1</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>fetchcode.specificFieldMapping.FetchCode Properties</sys_name>
+        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sys_properties_category_m2m_dc3dc7282f06d010f22a2d6df699b6c1</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:57:31</sys_updated_on>
+    </sys_properties_category_m2m>
+</record_update>
