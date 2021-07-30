@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_application">
+    <sys_app_application action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category display_value="Custom Applications">e0355b31ef303000a61d5a3615c0fb78</category>
+        <description/>
+        <device_type>browser</device_type>
+        <hint/>
+        <name>SND UI16 Developer Patch</name>
+        <order>100</order>
+        <roles>admin</roles>
+        <sys_class_name>sys_app_application</sys_class_name>
+        <sys_created_by>james@sndeveloper.com</sys_created_by>
+        <sys_created_on>2016-10-02 14:12:35</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>7d67b2100f126a00c55a09ece1050ee3</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>[ws] UI16 Developer Patch</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="">e96776dc0fde2a00c55a09ece1050eef</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sys_app_application_7d67b2100f126a00c55a09ece1050ee3</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:08:26</sys_updated_on>
+        <title>[ws] UI16 Developer Patch</title>
+        <view_name/>
+    </sys_app_application>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</claim_owner_scope>
+        <claim_timestamp>17af89a66c20000001</claim_timestamp>
+        <metadata_update_name>sys_app_application_7d67b2100f126a00c55a09ece1050ee3</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>ServiceNow Tools</previous_claim_name>
+        <previous_claim_scope>277b21671b2d3010d3807596cc4bcb6a</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-07-30 18:08:26</sys_created_on>
+        <sys_id>3faee1271ba17010d3807596cc4bcbc8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:08:26</sys_updated_on>
+    </sys_claim>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</claim_owner_scope>
+        <claim_timestamp>17af89a66aa0000001</claim_timestamp>
+        <metadata_update_name>sys_app_application_7d67b2100f126a00c55a09ece1050ee3</metadata_update_name>
+        <previous_claim_app_version>2.5.0</previous_claim_app_version>
+        <previous_claim_name>[ws] UI16 Developer Patch</previous_claim_name>
+        <previous_claim_scope>e96776dc0fde2a00c55a09ece1050eef</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-07-30 18:08:26</sys_created_on>
+        <sys_id>ccbee1271ba17010d3807596cc4bcbc8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:08:26</sys_updated_on>
+    </sys_claim>
+</record_update>

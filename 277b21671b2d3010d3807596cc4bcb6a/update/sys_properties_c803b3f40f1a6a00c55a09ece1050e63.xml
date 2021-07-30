@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description>Use an AJAX call to check if the user is impersonating  before adding the 'Unimpersonate' option to the profile menu. Set false to always show 'Unimpersonate'.</description>
+        <ignore_cache>false</ignore_cache>
+        <is_private>false</is_private>
+        <name>snd_ui16dp.profile.menu.check_impersonation</name>
+        <read_roles/>
+        <suffix>snd_ui16dp.profile.menu.check_impersonation</suffix>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>james@sndeveloper.com</sys_created_by>
+        <sys_created_on>2016-10-04 07:51:39</sys_created_on>
+        <sys_id>c803b3f40f1a6a00c55a09ece1050e63</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>snd_ui16dp.profile.menu.check_impersonation</sys_name>
+        <sys_package display_value="">e96776dc0fde2a00c55a09ece1050eef</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sys_properties_c803b3f40f1a6a00c55a09ece1050e63</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:08:37</sys_updated_on>
+        <type>boolean</type>
+        <value>true</value>
+        <write_roles/>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=c803b3f40f1a6a00c55a09ece1050e63"/>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</claim_owner_scope>
+        <claim_timestamp>17af89a93280000001</claim_timestamp>
+        <metadata_update_name>sys_properties_c803b3f40f1a6a00c55a09ece1050e63</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>ServiceNow Tools</previous_claim_name>
+        <previous_claim_scope>277b21671b2d3010d3807596cc4bcb6a</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-07-30 18:08:37</sys_created_on>
+        <sys_id>32be25271ba17010d3807596cc4bcbbd</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:08:37</sys_updated_on>
+    </sys_claim>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</claim_owner_scope>
+        <claim_timestamp>17af89a92ff0000001</claim_timestamp>
+        <metadata_update_name>sys_properties_c803b3f40f1a6a00c55a09ece1050e63</metadata_update_name>
+        <previous_claim_app_version>2.5.0</previous_claim_app_version>
+        <previous_claim_name>[ws] UI16 Developer Patch</previous_claim_name>
+        <previous_claim_scope>e96776dc0fde2a00c55a09ece1050eef</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-07-30 18:08:37</sys_created_on>
+        <sys_id>f2be25271ba17010d3807596cc4bcbbd</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:08:37</sys_updated_on>
+    </sys_claim>
+</record_update>
