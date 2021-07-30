@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="m2m_sp_ng_pro_sp_widget">
+    <m2m_sp_ng_pro_sp_widget action="INSERT_OR_UPDATE">
+        <sp_angular_provider display_value="spAttachmentManager">06e836f0d722120023c84f80de6103a1</sp_angular_provider>
+        <sp_widget display_value="FetchCode Form">07109c21dbe9bb0044275011ce961958</sp_widget>
+        <sys_class_name>m2m_sp_ng_pro_sp_widget</sys_class_name>
+        <sys_created_by>josh.virelli</sys_created_by>
+        <sys_created_on>2019-05-20 21:22:45</sys_created_on>
+        <sys_id>4310d061dbe9bb0044275011ce961936</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>spAttachmentManager.FetchCode Form</sys_name>
+        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>m2m_sp_ng_pro_sp_widget_4310d061dbe9bb0044275011ce961936</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:57:27</sys_updated_on>
+    </m2m_sp_ng_pro_sp_widget>
+</record_update>

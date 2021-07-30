@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>global.fetchCodeUtils</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>fetchCodeUtils</name>
+        <script><![CDATA[var fetchCodeUtils = Class.create();
+fetchCodeUtils.prototype = Object.extendsObject(AbstractScriptProcessor, {
+	initialize: function() {},
+
+	// global variables
+	search: null,
+	delimiter: ",",
+	resultsObject: {},
+	debug: false,
+	useAndQuery: true,
+	resultFormat: 'both',
+	instancePath: "/",
+	fieldName: '',
+	additionalFilter: '',
+	excludedTableProperty: gs.getProperty('fetchcode.excludedTables',false),
+
+	// Main function
+	searchForTerm: function(term, useAndQuery, debug, delimiter, additionalFilter) {
+		if (typeof debug != "undefined") this.debug = debug;
+		if (typeof delimiter != "undefined") this.delimiter = delimiter;
+		if (typeof useAndQuery != "undefined") this.useAndQuery = useAndQuery;
+		if (typeof additionalFilter != "undefined") this.additionalFilter = additionalFilter;
+		if (typeof term != "string") {
+			gs.error("GlobalScriptSearch - ERROR: must pass a valid search term to search");
+			return {
+				"error": "ERROR: must pass a valid search term to search"
+			};
+		}
+		this.search = term;
+		this._searchLocations();
+		this._searchFieldTypes();
+		this._searchWorkflow();
+		return JSON.stringify(this.resultsObject);
+	},
+
+	// Searches for specific fields based on table and field name
+	_searchLocations: function() {
+
+		var locations = JSON.parse(gs.getProperty('fetchcode.specificFieldMapping'));
+		for (var location in locations) {
+			this._searchLocation(location, locations[location]);
+		}
+	},
+
+	// Searches for certain types of fields
+	_searchFieldTypes: function() {
+
+		// Initialize GR for getting fields to search
+		var fieldList = new GlideRecord("sys_dictionary");
+
+		// Types of fields to search
+		var fieldTypes = ["script_plain", "script", "email_script", "condition_string", "conditions"];
+
+		// Add all field types to our fieldList query as a addOrQuery
+		var addOrQuery = null;
+		for (var index_1 = 0; index_1 < fieldTypes.length; index_1++) {
+			if (addOrQuery == null)
+				addOrQuery = fieldList.addQuery("internal_type", fieldTypes[index_1]);
+			else
+				addOrQuery.addOrCondition("internal_type", fieldTypes[index_1]);
+		}
+
+		// Add fields where the element begins or ends with script
+		addOrQuery.addOrCondition("element", "ENDSWITH", "script");
+		addOrQuery.addOrCondition("element", "STARTSWITH", "script");
+
+		// Exclude all field types that don't come from String
+		var nonString = new GlideRecord("sys_glide_object");
+		nonString.addQuery("scalar_type", "!=", "string");
+		nonString.queryNoDomain();
+		while (nonString.next()) {
+			fieldList.addQuery("internal_type", "!=", nonString.name + "");
+		}
+
+		// Exclude Bools
+		fieldList.addQuery("internal_type", "!=", "boolean");
+		
+		//Checking to see if property exists, or is not null. Wasn't included in FetchCode 1.0 so need this check for legacy support
+		if(this.excludedTableProperty){
+		// Filter out Excluded tables from Property
+		var excludedTableArr = this.excludedTableProperty.toString().split(',');
+		for(var et=0; et<excludedTableArr.length; et++){
+			fieldList.addQuery("name","!=",excludedTableArr[et]);
+		}
+		}
+
+
+		// Query for fields to search
+		fieldList.queryNoDomain();
+		while (fieldList.next()) {
+
+			// Exclude fields from tables prefixed with var__
+			if (fieldList.name.indexOf("var__") >= 0)
+				continue;
+
+			// set field name for use in adding matches
+			this.fieldName = fieldList.column_label;
+
+			// Search for term in this field
+			this._searchLocation(fieldList.name, fieldList.element);
+		}
+	},
+
+	// Searches workflows
+	_searchWorkflow: function() {
+
+		// The table that workflow activity scripts are stored
+		var tableName = 'sys_variable_value';
+
+		// the field that houses the scripts
+		var fieldName = 'value';
+
+		// Initialize GR for searching workflows
+		var rec = new GlideRecord(tableName);
+
+		// Query for workflow activities
+		rec.addQuery('document', 'wf_activity');
+
+		// Search for script fields
+		var addOrQuery_fieldTypes = rec.addQuery('variable.element', 'CONTAINS', 'script');
+		addOrQuery_fieldTypes.addOrCondition('variable.internal_type', 'CONTAINS', 'script');
+
+		// Split terms into an array
+		var terms = this.search.split(this.delimiter);
+
+		// Loop through terms and add them to query
+		for (var termsIndex_1 = 0; termsIndex_1 < terms.length; termsIndex_1++) {
+
+			// add to query based on if this is an And or an Or query
+			if (this.useAndQuery) {
+				rec.addQuery(fieldName, 'CONTAINS', terms[termsIndex_1]);
+			} else {
+				var addOrQuery_terms;
+				if (termsIndex_1 == 0)
+					addOrQuery_terms = rec.addQuery(fieldName, "CONTAINS", terms[termsIndex_1]);
+				else
+					addOrQuery_terms.addOrCondition(fieldName, "CONTAINS", terms[termsIndex_1]);
+			}
+		}
+
+		// add additional Query
+		if (this.additionalFilter)
+			rec.addEncodedQuery("^" + this.additionalFilter);
+
+		// Check for and add matches if found
+		this._addMatches(tableName, fieldName, rec);
+	},
+
+	// search for term based on table and field name
+	_searchLocation: function(table, field) {
+		var fieldName = field + "";
+		var tableName = table + "";
+
+		if (this.debug)
+			gs.debug("_searchLocation: " + tableName + " " + fieldName);
+
+		// Initialize GR for searching for terms
+		var target = new GlideRecord(tableName);
+
+		// Check if valid table name
+		if (!target.isValid()) {
+			gs.error("GlobalScriptSearch - ERROR: " + tableName + " was an invalid table name (field: " + fieldName + ").");
+			return;
+		}
+
+		// split terms int an array
+		var terms = this.search.split(this.delimiter);
+
+		if (this.debug)
+			gs.debug("_searchLocation: terms.length " + terms.length);
+
+		// Loop through terms and add them to query
+		for (var termsIndex_1 = 0; termsIndex_1 < terms.length; termsIndex_1++) {
+
+			// add to query based on if this is an And or an Or query
+			if (this.useAndQuery) {
+				target.addQuery(fieldName, 'CONTAINS', terms[termsIndex_1]);
+			} else {
+				var addOrQuery_terms;
+				if (termsIndex_1 == 0)
+					addOrQuery_terms = target.addQuery(fieldName, "CONTAINS", terms[termsIndex_1]);
+				else
+					addOrQuery_terms.addOrCondition(fieldName, "CONTAINS", terms[termsIndex_1]);
+			}
+		}
+
+		// add additional Query
+		if (this.additionalFilter)
+			target.addEncodedQuery("^" + this.additionalFilter);
+
+		// Check for and add matches if found
+		this._addMatches(tableName, fieldName, target);
+	},
+
+	/* Output matching files to the logs. */
+	_addMatches: function(tableName, fieldName, match) {
+		try {
+
+			// Query for matches based on query passed to function
+			match.queryNoDomain();
+
+			// Return if no matches found
+			if (match.getRowCount() < 1)
+				return;
+
+			// Create table object if it doesnt already exist
+			if (!this.resultsObject[tableName]) {
+
+				// Get table GlideRecord
+				var tableLabel = tableName;
+				var targetTable = new GlideRecord('sys_db_object');
+				if (targetTable.get('name', tableName)) {
+					tableLabel = targetTable.label.toString();
+				}
+
+				// Make label plural if multiple records found
+				if (tableLabel.substring(tableLabel.length - 1) != 's') {
+					if (tableLabel.substring(tableLabel.length - 1) == 'y') {
+						tableLabel = tableLabel.substring(0, tableLabel.length - 1) + 'ies';
+					} else {
+						tableLabel = tableLabel + 's';
+					}
+				}
+
+				// Create table Object to be passed back to client
+				this.resultsObject[tableName] = {
+					tableLabel: tableLabel.toString(),
+					fields: {
+
+					},
+					recordsMatched: 0,
+					fieldNameList: "",
+					path: this.instancePath + tableName + '_list.do?sysparm_query=sys_idIN'
+				};
+			}
+
+			// Create field object if it doesnt already exist
+			if (!this.resultsObject[tableName].fields[fieldName]) {
+				this.resultsObject[tableName].fields[fieldName] = {
+					matches: [
+
+					],
+					fieldNameList: "",
+					label: this.fieldName.toString() || fieldName,
+					recordsMatched: 0
+				};
+			}
+
+			// Add matches to object
+			while (match.next()) {
+
+				//Using records matched as array position for matches
+				var currentMatch = this.resultsObject[tableName].fields[fieldName].recordsMatched;
+
+				// Add match data to object
+				this.resultsObject[tableName].fields[fieldName].matches.push({
+					name: match.getDisplayValue(),
+					sys_id: match.getUniqueValue(),
+					tableName: tableName,
+					updated_by: match.sys_updated_by.toString(),
+					updated_on: match.sys_updated_on.toString(),
+					created_by: match.sys_created_by.toString(),
+					matchedString: match[fieldName].toString(),
+					table: match.table.toString() || match.collection.toString() || match.model_table.toString() || match.event_name.toString() || match.name.toString(),
+					path: this.instancePath + tableName + ".do?sys_id=" + match.getUniqueValue()
+				});
+
+				// Split terms into array for use in grabing match snippet
+				var terms = this.search.split(this.delimiter);
+
+				// Loop through terms and grab first match 
+				for (var term in terms) {
+					var subStrFound = false;
+
+					// Grab snippet of where match was found
+					if (!subStrFound) {
+						var endPoint,
+							startPoint,
+							termLength,
+							matchedFieldString = match[fieldName].toString(),
+							termToMatch = terms[term],
+							termStartPoint = matchedFieldString.indexOf(termToMatch);
+
+
+						if (termStartPoint != -1) {
+
+							termLength = terms[term].toString().length;
+
+							if (termStartPoint > 10) {
+								startPoint = termStartPoint - 10;
+							} else {
+								startPoint = 0;
+							}
+
+							endPoint = termStartPoint + termLength + 10;
+
+							if (parseInt(matchedFieldString.length) > parseInt(endPoint)) {
+								this.resultsObject[tableName].fields[fieldName].matches[currentMatch].matchSubString = matchedFieldString.substring(parseInt(startPoint), parseInt(endPoint)).toString();
+							} else {
+								this.resultsObject[tableName].fields[fieldName].matches[currentMatch].matchSubString = matchedFieldString.substring(startPoint).toString();
+							}
+							subStrFound = true;
+						}
+					}
+
+					// only return first match
+					if (subStrFound)
+						break;
+				}
+
+				// Try to get the table that the records runs on
+				if (match.table || match.collection || match.model_table || match.name) {
+					var matchTableName = match.table || match.collection || match.model_table || match.name.split('.')[0];
+					var appliesToTable = new GlideRecord('sys_db_object');
+					if (((appliesToTable.get('name', tableName) || match.sys_class_name == "sys_security_acl") && matchTableName != match.getDisplayValue())) {
+						this.resultsObject[tableName].fields[fieldName].showTable = true;
+					}
+					if (match.sys_class_name == "sysevent_script_action") {
+						this.resultsObject[tableName].fields[fieldName].showTable = true;
+						this.resultsObject[tableName].fields[fieldName].runsOn = "Event";
+					}
+				}
+
+				// Get Active state
+				if (match.active.toString() == 'true' || match.active.toString() == "false") {
+					this.resultsObject[tableName].fields[fieldName].showActive = true;
+					this.resultsObject[tableName].fields[fieldName].matches[currentMatch].isActive = match.active.toString();
+				}
+
+				// Add sys_id of match to list of matches
+				this.resultsObject[tableName].fieldNameList += match.getUniqueValue() + ",";
+				this.resultsObject[tableName].fields[fieldName].fieldNameList += match.getUniqueValue() + ",";
+
+				// Count matches
+				this.resultsObject[tableName].recordsMatched++;
+				this.resultsObject[tableName].fields[fieldName].recordsMatched++;
+			}
+
+
+		} catch (err) {
+			gs.error("fetchCodeUtils: ERRROR: failure while trying to insert matches " + err);
+		}
+	},
+
+	fetchSysIDTable: function(searchSysId){
+
+		var tableArray = [];
+		var tableName = '';
+		var fetchTable = '';
+
+		//Query sys_db_object table for all base tables; filtering out Cache, Log, Rollback tables, etc. May need to add to this Encoded Query as necessary
+		var table = new GlideRecord("sys_db_object");
+		table.addEncodedQuery("super_class=NULL^nameNOT LIKEsyslog^nameNOT LIKEcache^nameNOT LIKEsys_rollback^nameNOT LIKEsysx_^nameISNOTEMPTY");
+		
+		//Checking to see if property exists, or is not null. Wasn't included in FetchCode 1.0 so need this check for legacy support
+		if(this.excludedTableProperty){
+		// Filter out Excluded tables from Property
+		var excludedTableArr = this.excludedTableProperty.toString().split(',');
+		for(var et=0; et<excludedTableArr.length; et++){
+			table.addQuery("name","!=",excludedTableArr[et]);
+		}
+		}
+
+		table.query();
+
+		while (table.next()) {
+			tableName = table.name + '';
+
+			//Filter out views, text search, and PA tables
+			if (tableName.startsWith('v_') || tableName.startsWith('ts_') || tableName.startsWith('pa_')) {
+				continue;
+			} else {
+				tableArray.push(tableName);
+			}
+		}
+
+		for(var t=0; t<tableArray.length; t++){
+			var rec = new GlideRecord(tableArray[t]);
+			if(rec.get(searchSysId)){
+				fetchTable = rec.getRecordClassName();
+				break;
+			}
+		}
+
+		return fetchTable;
+	},
+
+	type: 'fetchCodeUtils'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>brent.llewellyn</sys_created_by>
+        <sys_created_on>2017-10-17 13:33:21</sys_created_on>
+        <sys_id>8cd963e6dbb58b405dbe38f0ad961929</sys_id>
+        <sys_mod_count>180</sys_mod_count>
+        <sys_name>fetchCodeUtils</sys_name>
+        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sys_script_include_8cd963e6dbb58b405dbe38f0ad961929</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:57:30</sys_updated_on>
+    </sys_script_include>
+</record_update>

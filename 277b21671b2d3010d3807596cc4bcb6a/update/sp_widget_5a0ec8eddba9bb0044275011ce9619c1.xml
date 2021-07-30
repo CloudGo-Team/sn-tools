@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function($location, $window, $scope, $rootScope, spUtil) {
+	/* widget controller */
+	var c = this;
+
+	c.data.refreshResults = false
+
+	$rootScope.$on("fetchCodeSearch", function(){
+		var urlParams = $location.search();
+		//If search parms in data object do not match new parms, update and trigger refresh of results
+		if(c.data.search != urlParams.search || c.data.type != urlParams.type || c.data.query != urlParams.query){
+			//Update search parameters, ensure they are strings
+			c.data.search = urlParams.search ? urlParams.search+'' : '';
+			c.data.query = urlParams.query ? urlParams.query+'': '';
+			c.data.type = urlParams.type ? urlParams.type+'': 'And';
+			c.data.refreshResults = true;
+			c.server.update().then(function(){
+				c.data.refreshResults = false;
+			});
+		}
+	});
+
+	c.editFetchCodeRecord = function(sys_id, table, matchedScript, mouseButton){
+		var params = {
+			'table': table,
+			'sys_id': sys_id
+		};
+
+		//Left click
+		if(mouseButton == 1){
+			//Broadcast event to FetchCode Controller to update URL for FetchCode Form widget
+			$rootScope.$broadcast('fetchCodeUpdateUrl',params);
+
+			//Send matched script to root for use in FetchCode Background Script widget
+			if(matchedScript){
+				$rootScope.matchedScript = matchedScript.toString();
+			}
+		}
+
+		//Middle Click
+		if(mouseButton == 2){
+			//Open in new window on platform
+			$window.open('/' + table + '.do?sys_id=' + sys_id, '_blank');
+		}
+	};
+
+	c.fetchMode = true;
+
+	$rootScope.$on('enableCodeMode',function(){
+		c.fetchMode = false;
+	});
+
+	$rootScope.$on('enableFetchMode',function(){
+		c.fetchMode = true;
+	});
+
+	//Default sort to sort by updated on, with reverse as false.
+	c.sortColumn = 'name';
+	c.reverseSort = false;
+
+	c.sortData = function (column){
+		//Check to see if inputted column is the previously inputted column, if so, reverse current sort. Default to false
+		c.reverseSort = (c.sortColumn == column) ? !c.reverseSort : false;
+		c.sortColumn = column;
+	};
+
+	c.getSortClass = function(column){
+		//Default to blank, so we don't show icons
+		var sortClass = '';
+
+		//If current column is being sorted, check if reverse sort to return the correct chevron class
+		if (c.sortColumn == column) {
+			sortClass = c.reverseSort ? 'fa fa-chevron-down' : 'fa fa-chevron-up';
+		}
+		return sortClass;
+	};
+
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css>sup {
+  top: 0;
+}
+
+.result-table {
+  width:100%;
+  background-color: $primary;
+  color: white;
+}
+
+.result-field {
+  width:100%;
+  background-color: lighten($primary, 10);
+  color: white;
+}
+
+.result-header{
+  background-color: lighten($primary, 20) !important;
+  color: white;
+}
+
+.badge{
+  background-color: darken($primary, 10);
+}
+
+.panel {
+  margin-bottom: 0px;
+}
+
+#fetch-results {
+  position: relative;
+  top: 0;
+}
+
+@media screen and (max-width: 991px){
+  #fetch-results{
+    top: 30px;
+  }
+}
+
+@media screen and (max-width: 767px){
+  #fetch-results{
+    top: 160px;
+  }
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>fetchcode_results</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {  }]]></link>
+        <name>FetchCode Results</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
+
+	var fcUtils = new fetchCodeUtils();
+	
+	if(!input){	
+		//Set initial parm values
+		data.refreshResults = false;
+		data.id = $sp.getParameter('id');
+		data.search = $sp.getParameter('search') ? $sp.getParameter('search') + '' : '';
+		data.type = $sp.getParameter('type') ? $sp.getParameter('type') + '' : 'And';
+		data.query = $sp.getParameter('query') ? $sp.getParameter('query')+'' : '';
+
+		//If search or query are present on load, build results
+		if(data.search || data.query){
+			data.results = JSON.parse(fcUtils.searchForTerm(data.search,data.type,undefined,undefined,data.query));
+			if(Object.keys(data.results).length == 0){
+				data.noResults = true;
+			}else{
+				data.noResults = false;
+			}
+		}else{
+			data.noResults = true;
+		}
+	}
+
+	if(input){
+		//If search, type, or query changes, update results
+		if(input.refreshResults){
+			data.results = JSON.parse(fcUtils.searchForTerm(input.search,input.type,undefined,undefined,input.query));
+			if(Object.keys(data.results).length == 0){
+				data.noResults = true;
+			}else{
+				data.noResults = false;
+			}
+		}
+	}
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>josh.virelli</sys_created_by>
+        <sys_created_on>2019-05-20 21:13:42</sys_created_on>
+        <sys_id>5a0ec8eddba9bb0044275011ce9619c1</sys_id>
+        <sys_mod_count>126</sys_mod_count>
+        <sys_name>FetchCode Results</sys_name>
+        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sp_widget_5a0ec8eddba9bb0044275011ce9619c1</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:57:28</sys_updated_on>
+        <template><![CDATA[<div ng-show="c.fetchMode == true" id="fetch-results">
+  <div class="col-lg-12">
+    <h1 class="lead">${Code Search Results}</h1>
+  </div>
+  <div class="panel col-lg-12" ng-if="c.data.refreshResults == true">
+    <div class="fc-load-adjust">
+      <div class="fc-loader"></div>
+    </div>
+  </div>
+
+  <div ng-if="!data.noResults && c.data.refreshResults == false" class="col-lg-12">
+    <div ng-repeat="table in data.results track by $index">
+      <button class="panel panel-default panel-heading text-left result-table" data-toggle="collapse" data-target="#tableMenu_{{$index}}">{{table.tableLabel}} <span style="color: white" class="badge"> <sup>{{table.recordsMatched}}</sup> </span></button>
+      <div id="tableMenu_{{$index}}" class="collapse list-view">
+        <a ng-href="{{table.path}}{{table.fieldNameList}}" target="_blank">${List View}</a>
+        <ul style="list-style-type: none">
+          <li ng-repeat="field in table.fields">
+            <button class="panel panel-default panel-heading text-left result-field" data-toggle="collapse" data-target="#fieldMenu_{{$parent.$index}}_{{$index}}">{{field.label}} ${field} <span style="color: white" class="badge"> <sup>{{field.recordsMatched}}</sup> </span></button>
+            <div id="fieldMenu_{{$parent.$index}}_{{$index}}" class="collapse">
+              <table class="table table-hover table-bordered">
+                <thead>
+                  <tr class="result-header">
+                    <th ng-click="c.sortData('name')">
+                      ${Record}
+                      <i ng-class="c.getSortClass('name')"></i>
+                    </th>
+                    <th ng-click="c.sortData('updated_on')">
+                      ${Updated On}
+                      <i ng-class="c.getSortClass('updated_on')"></i>
+                    </th>	
+                    <th ng-click="c.sortData('updated_by')">
+                      ${Updated By}
+                      <i ng-class="c.getSortClass('updated_by')"></i>
+                    </th>
+                    <th ng-click="c.sortData('created_by')">
+                      ${Created By}
+                      <i ng-class="c.getSortClass('created_by')"></i>
+                    </th>	
+                    <th ng-if="field.showTable" ng-click="c.sortData('table')">
+                      ${Runs on}
+                      <i ng-class="c.getSortClass('table')"></i>
+                    </th>	
+                    <th ng-if="field.showActive" ng-click="c.sortData('active')">
+                      ${Active}
+                      <i ng-class="c.getSortClass('active')"></i>
+                    </th>	
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="match in field.matches | orderBy:c.sortColumn:c.reverseSort" ng-mouseup="c.editFetchCodeRecord(match.sys_id,match.tableName,match.matchedString,$event.which)">
+                    <td>
+                      <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="{{match.name}}">
+                        {{match.name}}
+                      </a>
+                    </td>
+                    <td>
+                      {{match.updated_on}}
+                    </td>
+                    <td>
+                      {{match.updated_by}}
+                    </td>
+                    <td>
+                      {{match.created_by}}
+                    </td>
+                    <td ng-if="field.showTable">
+                      {{match.table}}
+                    </td>
+                    <td ng-if="field.showActive">
+                      {{match.isActive}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div ng-if="data.noResults == true && c.data.refreshResults == false" class="panel panel-default col-lg-12">
+    <div class="wrapper-lg text-center">${No results found}</div>
+  </div>]]></template>
+    </sp_widget>
+</record_update>

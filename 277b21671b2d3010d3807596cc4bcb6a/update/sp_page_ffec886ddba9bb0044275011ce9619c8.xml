@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_page">
+    <sp_page action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <css>#uiNotificationContainer{
+  z-index: 2000;
+}
+
+.container {
+  width: 100%;
+}
+
+.fc-body {
+  padding-top: 205px;
+  margin-bottom: 65px;
+}
+
+.fc-loader {
+  margin: 4em auto;
+  font-size: 24px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-animation: fc-load 1.1s infinite ease;
+  animation: fc-load 1.1s infinite ease;
+}
+
+.fc-load-adjust{
+  min-height:150px; 
+  height:auto;
+}
+
+@-webkit-keyframes fc-load {
+  0%,
+  100% {
+    box-shadow: 0em -2.6em 0em 0em $primary, 1.8em -1.8em 0 0em rgba($primary, 0.2), 2.5em 0em 0 0em rgba($primary, 0.2), 1.75em 1.75em 0 0em rgba($primary, 0.2), 0em 2.5em 0 0em rgba($primary, 0.2), -1.8em 1.8em 0 0em rgba($primary, 0.2), -2.6em 0em 0 0em rgba($primary, 0.5), -1.8em -1.8em 0 0em rgba($primary, 0.7);
+  }
+  12.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba($primary, 0.7), 1.8em -1.8em 0 0em $primary, 2.5em 0em 0 0em rgba($primary, 0.2), 1.75em 1.75em 0 0em rgba($primary, 0.2), 0em 2.5em 0 0em rgba($primary, 0.2), -1.8em 1.8em 0 0em rgba($primary, 0.2), -2.6em 0em 0 0em rgba($primary, 0.2), -1.8em -1.8em 0 0em rgba($primary, 0.5);
+  }
+  25% {
+    box-shadow: 0em -2.6em 0em 0em rgba($primary, 0.5), 1.8em -1.8em 0 0em rgba($primary, 0.7), 2.5em 0em 0 0em $primary, 1.75em 1.75em 0 0em rgba($primary, 0.2), 0em 2.5em 0 0em rgba($primary, 0.2), -1.8em 1.8em 0 0em rgba($primary, 0.2), -2.6em 0em 0 0em rgba($primary, 0.2), -1.8em -1.8em 0 0em rgba($primary, 0.2);
+  }
+  37.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba($primary, 0.2), 1.8em -1.8em 0 0em rgba($primary, 0.5), 2.5em 0em 0 0em rgba($primary, 0.7), 1.75em 1.75em 0 0em rgba($primary, 0.2), 0em 2.5em 0 0em rgba($primary, 0.2), -1.8em 1.8em 0 0em rgba($primary, 0.2), -2.6em 0em 0 0em rgba($primary, 0.2), -1.8em -1.8em 0 0em rgba($primary, 0.2);
+  }
+  50% {
+    box-shadow: 0em -2.6em 0em 0em rgba($primary, 0.2), 1.8em -1.8em 0 0em rgba($primary, 0.2), 2.5em 0em 0 0em rgba($primary, 0.5), 1.75em 1.75em 0 0em rgba($primary, 0.7), 0em 2.5em 0 0em $primary, -1.8em 1.8em 0 0em rgba($primary, 0.2), -2.6em 0em 0 0em rgba($primary, 0.2), -1.8em -1.8em 0 0em rgba($primary, 0.2);
+  }
+  62.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba($primary, 0.2), 1.8em -1.8em 0 0em rgba($primary, 0.2), 2.5em 0em 0 0em rgba($primary, 0.2), 1.75em 1.75em 0 0em rgba($primary, 0.5), 0em 2.5em 0 0em rgba($primary, 0.7), -1.8em 1.8em 0 0em $primary, -2.6em 0em 0 0em rgba($primary, 0.2), -1.8em -1.8em 0 0em rgba($primary, 0.2);
+  }
+  75% {
+    box-shadow: 0em -2.6em 0em 0em rgba($primary, 0.2), 1.8em -1.8em 0 0em rgba($primary, 0.2), 2.5em 0em 0 0em rgba($primary, 0.2), 1.75em 1.75em 0 0em rgba($primary, 0.2), 0em 2.5em 0 0em rgba($primary, 0.5), -1.8em 1.8em 0 0em rgba($primary, 0.7), -2.6em 0em 0 0em $primary, -1.8em -1.8em 0 0em rgba($primary, 0.2);
+  }
+  87.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba($primary, 0.2), 1.8em -1.8em 0 0em rgba($primary, 0.2), 2.5em 0em 0 0em rgba($primary, 0.2), 1.75em 1.75em 0 0em rgba($primary, 0.2), 0em 2.5em 0 0em rgba($primary, 0.2), -1.8em 1.8em 0 0em rgba($primary, 0.5), -2.6em 0em 0 0em rgba($primary, 0.7), -1.8em -1.8em 0 0em $primary;
+  }
+}
+@keyframes fc-load {
+  0%,
+  100% {
+    box-shadow: 0em -2.6em 0em 0em $primary, 1.8em -1.8em 0 0em rgba($primary, 0.2), 2.5em 0em 0 0em rgba($primary, 0.2), 1.75em 1.75em 0 0em rgba($primary, 0.2), 0em 2.5em 0 0em rgba($primary, 0.2), -1.8em 1.8em 0 0em rgba($primary, 0.2), -2.6em 0em 0 0em rgba($primary, 0.5), -1.8em -1.8em 0 0em rgba($primary, 0.7);
+  }
+  12.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba($primary, 0.7), 1.8em -1.8em 0 0em $primary, 2.5em 0em 0 0em rgba($primary, 0.2), 1.75em 1.75em 0 0em rgba($primary, 0.2), 0em 2.5em 0 0em rgba($primary, 0.2), -1.8em 1.8em 0 0em rgba($primary, 0.2), -2.6em 0em 0 0em rgba($primary, 0.2), -1.8em -1.8em 0 0em rgba($primary, 0.5);
+  }
+  25% {
+    box-shadow: 0em -2.6em 0em 0em rgba($primary, 0.5), 1.8em -1.8em 0 0em rgba($primary, 0.7), 2.5em 0em 0 0em $primary, 1.75em 1.75em 0 0em rgba($primary, 0.2), 0em 2.5em 0 0em rgba($primary, 0.2), -1.8em 1.8em 0 0em rgba($primary, 0.2), -2.6em 0em 0 0em rgba($primary, 0.2), -1.8em -1.8em 0 0em rgba($primary, 0.2);
+  }
+  37.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba($primary, 0.2), 1.8em -1.8em 0 0em rgba($primary, 0.5), 2.5em 0em 0 0em rgba($primary, 0.7), 1.75em 1.75em 0 0em rgba($primary, 0.2), 0em 2.5em 0 0em rgba($primary, 0.2), -1.8em 1.8em 0 0em rgba($primary, 0.2), -2.6em 0em 0 0em rgba($primary, 0.2), -1.8em -1.8em 0 0em rgba($primary, 0.2);
+  }
+  50% {
+    box-shadow: 0em -2.6em 0em 0em rgba($primary, 0.2), 1.8em -1.8em 0 0em rgba($primary, 0.2), 2.5em 0em 0 0em rgba($primary, 0.5), 1.75em 1.75em 0 0em rgba($primary, 0.7), 0em 2.5em 0 0em $primary, -1.8em 1.8em 0 0em rgba($primary, 0.2), -2.6em 0em 0 0em rgba($primary, 0.2), -1.8em -1.8em 0 0em rgba($primary, 0.2);
+  }
+  62.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba($primary, 0.2), 1.8em -1.8em 0 0em rgba($primary, 0.2), 2.5em 0em 0 0em rgba($primary, 0.2), 1.75em 1.75em 0 0em rgba($primary, 0.5), 0em 2.5em 0 0em rgba($primary, 0.7), -1.8em 1.8em 0 0em $primary, -2.6em 0em 0 0em rgba($primary, 0.2), -1.8em -1.8em 0 0em rgba($primary, 0.2);
+  }
+  75% {
+    box-shadow: 0em -2.6em 0em 0em rgba($primary, 0.2), 1.8em -1.8em 0 0em rgba($primary, 0.2), 2.5em 0em 0 0em rgba($primary, 0.2), 1.75em 1.75em 0 0em rgba($primary, 0.2), 0em 2.5em 0 0em rgba($primary, 0.5), -1.8em 1.8em 0 0em rgba($primary, 0.7), -2.6em 0em 0 0em $primary, -1.8em -1.8em 0 0em rgba($primary, 0.2);
+  }
+  87.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba($primary, 0.2), 1.8em -1.8em 0 0em rgba($primary, 0.2), 2.5em 0em 0 0em rgba($primary, 0.2), 1.75em 1.75em 0 0em rgba($primary, 0.2), 0em 2.5em 0 0em rgba($primary, 0.2), -1.8em 1.8em 0 0em rgba($primary, 0.5), -2.6em 0em 0 0em rgba($primary, 0.7), -1.8em -1.8em 0 0em $primary;
+  }
+}</css>
+        <draft>false</draft>
+        <dynamic_title_structure/>
+        <id>fetchcode</id>
+        <internal>false</internal>
+        <omit_watcher>false</omit_watcher>
+        <public>false</public>
+        <roles>admin</roles>
+        <seo_script/>
+        <short_description/>
+        <sys_class_name>sp_page</sys_class_name>
+        <sys_created_by>josh.virelli</sys_created_by>
+        <sys_created_on>2019-05-20 21:09:01</sys_created_on>
+        <sys_id>ffec886ddba9bb0044275011ce9619c8</sys_id>
+        <sys_mod_count>22</sys_mod_count>
+        <sys_name>fetchcode</sys_name>
+        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sp_page_ffec886ddba9bb0044275011ce9619c8</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:57:34</sys_updated_on>
+        <title>FetchCode</title>
+        <use_seo_script>false</use_seo_script>
+    </sp_page>
+    <sys_translated_text action="delete_multiple" query="documentkey=ffec886ddba9bb0044275011ce9619c8"/>
+</record_update>

@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function($rootScope,$scope,$uibModal,spUtil) {
+	/* widget controller */
+	var c = this;
+
+	//Change back to false
+	$scope.codeMode = false;
+
+	$rootScope.$on('enableCodeMode',function(){
+		$scope.codeMode = true;
+	});
+
+	$rootScope.$on('enableFetchMode',function(){
+		$scope.codeMode = false;
+	});
+
+	/**
+ * @function startBackgroundScript
+ * @param  {String} script   {the script that should be executed}
+ * @param  {Function} callback {the function that's called after successful execution (function takes 1 argument: response)}
+ * @return {undefined}
+ */
+	c.startBackgroundScript = function (script, callback) {
+		var g_ck = c.data.user_session_token;
+		try {
+			$.ajax({
+				url: 'sys.scripts.do',
+				method: 'GET', //POST does not work somehow
+				headers: {
+					'X-UserToken': g_ck,
+					'Cache-Control': 'no-cache',
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				data: {
+					script: script,
+					runscript: "Run script",
+					sysparm_ck: g_ck,
+					sys_scope: 'e24e9692d7702100738dc0da9e6103dd'
+				}
+			}).done(function (rspns) {
+				callback(rspns);
+			}).fail(function (jqXHR, textStatus) {
+				spUtil.addErrorMessage('Background Script failed (' + jqXHR.statusText + ')');
+			});
+		} catch (error) {
+			spUtil.addErrorMessage('Background Script failed (' + error + ')');
+		}
+	};
+
+
+	c.populateResponse = function(response){
+		c.script_result = response;
+		$scope.$apply();
+	};
+
+	c.runBgScript = function(){
+		c.script = document.querySelector('.CodeMirror').CodeMirror.getValue().toString();
+		c.startBackgroundScript(c.script, c.populateResponse);
+	};
+
+	c.openCurrentPickerModal = function() {
+		c.currentPickerModal = $uibModal.open({
+			templateUrl: 'currentPickerTemplate',
+			scope: $scope
+		});
+	};
+
+	c.closeCurrentPickerModal = function() {
+		c.currentPickerModal.close();
+	};
+
+	c.setRecordCurrent = function() {
+		//Build GlideRecord get function with input values
+		var currentGr = 'var current = new GlideRecord("'+c.data.setTable+'");\ncurrent.get("'+c.data.setRecord+'");\n\n';
+
+		//Add GlideRecord query to the beginning of the script in the CodeMirror script field
+		var cm = document.querySelector('.CodeMirror').CodeMirror.getValue().toString();
+		document.querySelector('.CodeMirror').CodeMirror.setValue(currentGr + cm);
+
+		//Close the window
+		c.closeCurrentPickerModal();
+	};
+
+	c.fetchMatchedScript = function() {
+		//Add GlideRecord query to the beginning of the script in the CodeMirror script field
+		if($rootScope.matchedScript){
+			document.querySelector('.CodeMirror').CodeMirror.setValue($rootScope.matchedScript);
+		}
+	};
+
+	$scope.table = {
+		displayValue: c.data.table.label,
+		value: c.data.table.name,
+		name: 'table'
+	};
+
+	$scope.record = {
+		displayValue: c.data.record.name,
+		value: c.data.record.sys_id,
+		name: 'record'
+	};
+
+	$scope.$on("field.change", function(evt, parms) {
+
+		if (parms.field.name == 'table'){
+			c.data.setTable = parms.newValue;
+
+			c.data.setRecord = '';
+			$scope.record = {
+				displayValue: '',
+				value: '',
+				name: 'record'
+			};
+		}
+		if (parms.field.name == 'record'){
+			c.data.setRecord = parms.newValue;
+		}
+		c.server.update().then(function(response) {
+			spUtil.update($scope);
+		});
+	});
+
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css>#bg-container {
+  position: fixed;
+  top: 200px;
+  left: 0;
+  width: 50%;
+}
+
+@media screen and (max-width: 991px){
+  #bg-container {
+    position: relative;
+    width: 100%;
+    top: 30px;
+  }
+}
+
+@media screen and (max-width: 767px){
+  #bg-container {
+    position: relative;
+    width: 100%;
+    top: 160px;
+  }
+}
+
+#bg-script-back-button {
+  width: 80px;
+  text-align: center;
+}
+
+#fc-btn-container {
+  text-align: right;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#codemirror-container{
+  width: 100%;
+}
+
+#fc-results {
+  padding-left: 15px;
+  background-color: #f1f1f1;
+  width: 100%;
+  height: 31vh;
+  overflow: auto;
+}
+
+#bg-warning {
+  padding-left: 15px;
+  padding-bottom: 5px;
+}
+
+#btn-set-current {
+  margin-left: 10px;
+}
+
+.CodeMirror {
+  height: 31vh;
+}
+
+</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>fetchcode_background_script</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+
+}
+]]></link>
+        <name>FetchCode Background Script</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {  /* populate the 'data' object */  /* e.g., data.table = $sp.getValue('table'); */
+
+	if(!input){
+		//Try both methods to get user's session token
+		var session = gs.getSession();
+		var token = gs.getSessionToken() ? gs.getSessionToken() : session.getSessionToken();
+		data.user_session_token = token;
+
+		data.displayField = '';
+		data.displayFields = '';
+		data.searchFields = '';
+		data.setTable = '';
+		data.setRecord = '';
+		data.record = {
+			name: '',
+			sys_id : ''
+		};
+		data.table = {
+			name:'',
+			label :''
+		};
+
+	}
+
+	if(input){
+		if(input.setTable){
+			var tableUtil = new TableUtils(input.setTable);
+			var baseTable = tableUtil.getAbsoluteBase();
+
+			//Set display field on record picker to specified display field on the table
+			var displayField = gs.getDisplayColumn(input.setTable);
+
+			var baseFields = ['sys_updated_on,sys_updated_by'];
+			var customFields = [];
+			//Set ancillary display fields dependent upon Base Table.
+			if(baseTable == 'task'){
+				customFields.push('short_description');
+			}else if(baseTable == 'cmdb_ci'){
+				customFields.push('class,sys_updated_on,sys_updated_by');
+			}
+
+			var searchFields = [displayField,'sys_updated_by','sys_created_by'];
+			var displayFields = [baseFields];
+			if(customFields.length > 0){
+				//If there are custom fields, add to the search terms and at the beginning of the display fields
+				searchFields.push(customFields);
+				displayFields.unshift(customFields);
+			}
+
+			//Set values for the sn-record-picker directive
+			data.displayField = displayField.toString();
+			data.displayFields = displayFields.toString();
+			data.searchFields = searchFields.toString();
+
+			//Clear out record if table changes
+			data.record = {
+				name: '',
+				sys_id : ''
+			};
+		}
+		if(input.setRecord){
+			data.setRecord = input.setRecord;
+		}
+	}
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>josh.virelli</sys_created_by>
+        <sys_created_on>2019-05-20 21:17:45</sys_created_on>
+        <sys_id>e9fe8021dbe9bb0044275011ce9619ba</sys_id>
+        <sys_mod_count>204</sys_mod_count>
+        <sys_name>FetchCode Background Script</sys_name>
+        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sp_widget_e9fe8021dbe9bb0044275011ce9619ba</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:57:32</sys_updated_on>
+        <template><![CDATA[<div ng-show="codeMode == true" id="bg-container">
+  <h5 id="bg-warning">${Running freeform script can cause system disruption or loss of data.}</h5>
+  <fc-code-mirror></fc-code-mirror>
+  <div class="col-lg-12" id="fc-btn-container">
+    <button class="btn btn-info" ng-if="$root.matchedScript" ng-click="c.fetchMatchedScript()">${Fetch Matched Script}</button>
+    <button class="btn btn-primary" ng-click="c.openCurrentPickerModal()">${Define Current}</button>
+    <button class="btn btn-warning" id="bg-script-run-button" ng-click="c.runBgScript()">${Run Script}</button>
+  </div>
+  <div ng-if="c.script_result" ng-bind-html="c.script_result" id="fc-results"></div>
+</div>
+
+<script type="text/ng-template" id="currentPickerTemplate">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">${Define Current GlideRecord}</h4>
+  </div>
+		<div class="panel-body wrapper-xl">
+	<div>
+    	<label>${Choose a table}</label>
+		<sn-record-picker field="table" table="'sys_db_object'" display-field="'label'" value-field="'name'" search-fields="'name,label'" page-size="100" style="margin-bottom: 15px !important;"></sn-record-picker>
+	<div>
+	<div ng-if="c.data.setTable != ''">
+    	<label>${Choose the record you would like to set as current in your GlideRecord}</label>
+		<sn-record-picker field="record" table="c.data.setTable" display-field="c.data.displayField" display-fields="c.data.displayFields" value-field="'sys_id'" search-fields="c.data.searchFields" page-size="100" style="margin-bottom: 15px !important;"></sn-record-picker>
+  </div>
+  </div>
+		<div class="text-right">
+			<button class="btn btn-danger" ng-click="c.closeCurrentPickerModal()">${Close Modal}</button>
+            <button class="btn btn-primary" id="btn-set-current" ng-disabled="c.data.setRecord == ''" ng-click="c.setRecordCurrent()">${Set Record as Current}</button>
+  </div>
+  </div>
+</script>]]></template>
+    </sp_widget>
+</record_update>
