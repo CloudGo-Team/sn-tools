@@ -15,16 +15,16 @@ If you are getting that error with another table/scope, you can either add the t
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2020-07-13 21:17:27</sys_created_on>
         <sys_id>5caac7642f06d010f22a2d6df699b6c5</sys_id>
-        <sys_mod_count>10</sys_mod_count>
+        <sys_mod_count>11</sys_mod_count>
         <sys_name>fetchcode.excludedTables</sys_name>
         <sys_package display_value="Global" source="global">global</sys_package>
         <sys_policy/>
         <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
         <sys_update_name>sys_properties_5caac7642f06d010f22a2d6df699b6c5</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-07-30 18:57:28</sys_updated_on>
+        <sys_updated_on>2021-07-30 19:11:34</sys_updated_on>
         <type>string</type>
-        <value>sn_templated_snip_note_template,sn_m2m_note_template_for_table</value>
+        <value>sn_templated_snip_note_template,sn_m2m_note_template_for_table,sn_hr_sp_todos_config,sn_hr_sp_todos_widget_mapping</value>
         <write_roles/>
     </sys_properties>
     <sys_translated_text action="delete_multiple" query="documentkey=5caac7642f06d010f22a2d6df699b6c5"/>
