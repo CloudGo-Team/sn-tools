@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description>List of specific admin users that have access to the Add to Update Set UI Action; leave blank to allow for all users with the admin role.  Set this property to a Comma-separated list of User IDs (sys_user table user_name field). (Default = blank, all users with admin role have access to the UI Action)</description>
+        <ignore_cache>false</ignore_cache>
+        <is_private>false</is_private>
+        <name>addToUpdateSetUtils.specific_users</name>
+        <read_roles/>
+        <suffix/>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-03-16 14:54:32</sys_created_on>
+        <sys_id>c3cd78162f6b8410c6c690bcf699b612</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>addToUpdateSetUtils.specific_users</sys_name>
+        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sys_properties_c3cd78162f6b8410c6c690bcf699b612</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:48:31</sys_updated_on>
+        <type>string</type>
+        <value/>
+        <write_roles/>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=c3cd78162f6b8410c6c690bcf699b612"/>
+</record_update>

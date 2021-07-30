@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category">
+    <sys_properties_category action="INSERT_OR_UPDATE">
+        <name>addToUpdateSetUtils</name>
+        <sys_class_name>sys_properties_category</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-03-10 18:40:31</sys_created_on>
+        <sys_id>cdf73a142fe7cc50c6c690bcf699b6a2</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>addToUpdateSetUtils</sys_name>
+        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sys_properties_category_cdf73a142fe7cc50c6c690bcf699b6a2</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:48:32</sys_updated_on>
+        <title><![CDATA[<p>Preferences for the Add to Update Set Utility.  <a title="Please check Share for updates" href="https://developer.servicenow.com/app.do#!/share/contents/9824957_add_to_update_set_utility?t&#61;PRODUCT_DETAILS" target="_blank" rel="noopener noreferrer nofollow">Please check Share for updates</a>!</p>]]></title>
+    </sys_properties_category>
+    <sys_translated_text action="delete_multiple" query="documentkey=cdf73a142fe7cc50c6c690bcf699b6a2"/>
+</record_update>

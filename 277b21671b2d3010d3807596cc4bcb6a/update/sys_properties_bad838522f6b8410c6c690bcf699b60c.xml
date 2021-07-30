@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description>List of tables that the Add to Update Set UI Action will not be displayed.  Set this property to a comma-separated list of table names.</description>
+        <ignore_cache>false</ignore_cache>
+        <is_private>false</is_private>
+        <name>addToUpdateSetUtils.exclude_tables</name>
+        <read_roles/>
+        <suffix/>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-03-16 14:32:57</sys_created_on>
+        <sys_id>bad838522f6b8410c6c690bcf699b60c</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>addToUpdateSetUtils.exclude_tables</sys_name>
+        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sys_properties_bad838522f6b8410c6c690bcf699b60c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:48:28</sys_updated_on>
+        <type>string</type>
+        <value>sys_update_set,sys_remote_update_set,sys_update_xml</value>
+        <write_roles/>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=bad838522f6b8410c6c690bcf699b60c"/>
+</record_update>

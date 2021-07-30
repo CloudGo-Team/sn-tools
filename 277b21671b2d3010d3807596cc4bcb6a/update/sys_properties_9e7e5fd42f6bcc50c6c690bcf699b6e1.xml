@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description>Prevent the addition of items to the system "default" update sets.  Set this property to 'No' to allow that to happen. (Default = Yes)</description>
+        <ignore_cache>false</ignore_cache>
+        <is_private>false</is_private>
+        <name>addToUpdateSetUtils.prevent_default_updatesets</name>
+        <read_roles/>
+        <suffix/>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-03-10 21:28:42</sys_created_on>
+        <sys_id>9e7e5fd42f6bcc50c6c690bcf699b6e1</sys_id>
+        <sys_mod_count>11</sys_mod_count>
+        <sys_name>addToUpdateSetUtils.prevent_default_updatesets</sys_name>
+        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sys_properties_9e7e5fd42f6bcc50c6c690bcf699b6e1</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 18:48:25</sys_updated_on>
+        <type>boolean</type>
+        <value>true</value>
+        <write_roles/>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=9e7e5fd42f6bcc50c6c690bcf699b6e1"/>
+</record_update>
