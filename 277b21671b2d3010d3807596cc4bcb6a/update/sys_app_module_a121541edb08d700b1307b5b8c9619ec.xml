@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_module">
+    <sys_app_module action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <application display_value="Xplore: Developer Toolkit">4eb000280f2a020094f3c09ce1050e23</application>
+        <assessment/>
+        <device_type/>
+        <filter/>
+        <hint/>
+        <homepage/>
+        <image/>
+        <link_type>DIRECT</link_type>
+        <map_page/>
+        <mobile_title>Properties</mobile_title>
+        <mobile_view_name>Mobile</mobile_view_name>
+        <name/>
+        <order>9000</order>
+        <override_menu_roles>false</override_menu_roles>
+        <query>system_properties_ui.do?sysparm_title=Xplore Settings%20Properties&amp;sysparm_category=Xplore Settings</query>
+        <report/>
+        <roles>admin</roles>
+        <sys_class_name>sys_app_module</sys_class_name>
+        <sys_created_by>james@sharelogic.com</sys_created_by>
+        <sys_created_on>2018-02-04 23:26:14</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>a121541edb08d700b1307b5b8c9619ec</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Properties</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Xplore: Developer Toolkit" source="0f6ab99a0f36060094f3c09ce1050ee8">0f6ab99a0f36060094f3c09ce1050ee8</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sys_app_module_a121541edb08d700b1307b5b8c9619ec</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 17:59:38</sys_updated_on>
+        <timeline_page/>
+        <title>Properties</title>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+        <window_name/>
+    </sys_app_module>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</claim_owner_scope>
+        <claim_timestamp>17af89258ad0000001</claim_timestamp>
+        <metadata_update_name>sys_app_module_a121541edb08d700b1307b5b8c9619ec</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>ServiceNow Tools</previous_claim_name>
+        <previous_claim_scope>277b21671b2d3010d3807596cc4bcb6a</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-07-30 17:59:38</sys_created_on>
+        <sys_id>0fac2d631ba17010d3807596cc4bcb4b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 17:59:38</sys_updated_on>
+    </sys_claim>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</claim_owner_scope>
+        <claim_timestamp>17af892588b0000001</claim_timestamp>
+        <metadata_update_name>sys_app_module_a121541edb08d700b1307b5b8c9619ec</metadata_update_name>
+        <previous_claim_app_version>4.9</previous_claim_app_version>
+        <previous_claim_name>Xplore: Developer Toolkit</previous_claim_name>
+        <previous_claim_scope>0f6ab99a0f36060094f3c09ce1050ee8</previous_claim_scope>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-07-30 17:59:38</sys_created_on>
+        <sys_id>cfac2d631ba17010d3807596cc4bcb4b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-07-30 17:59:38</sys_updated_on>
+    </sys_claim>
+</record_update>
