@@ -1699,7 +1699,7 @@ addToUpdateSetUtils.prototype = {
 		this.saveRecord(indicatorSource);
 		
 		var reportSource = new GlideRecord("sys_report_source");
-		if (reportSource.get(sysReport.getValue("report_source"))) {
+		if (reportSource.get(indicatorSource.getValue("report_source"))) {
 			this.saveRecord(reportSource);
 		}
 		
@@ -3792,13 +3792,27 @@ addToUpdateSetUtils.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-10-24 16:31:04</sys_created_on>
         <sys_id>6ba1c8a24f5da740d1676bd18110c79a</sys_id>
-        <sys_mod_count>273</sys_mod_count>
+        <sys_mod_count>274</sys_mod_count>
         <sys_name>addToUpdateSetUtils</sys_name>
         <sys_package display_value="Global" source="global">global</sys_package>
         <sys_policy/>
         <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
         <sys_update_name>sys_script_include_6ba1c8a24f5da740d1676bd18110c79a</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-07-30 18:48:23</sys_updated_on>
+        <sys_updated_by>christopher.crockett@cloudgoservices.com</sys_updated_by>
+        <sys_updated_on>2021-09-21 22:48:14</sys_updated_on>
     </sys_script_include>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</claim_owner_scope>
+        <claim_timestamp>17c0a8b9eb30000001</claim_timestamp>
+        <metadata_update_name>sys_script_include_6ba1c8a24f5da740d1676bd18110c79a</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>ServiceNow Tools</previous_claim_name>
+        <previous_claim_scope>277b21671b2d3010d3807596cc4bcb6a</previous_claim_scope>
+        <sys_created_by>christopher.crockett@cloudgoservices.com</sys_created_by>
+        <sys_created_on>2021-09-21 22:48:14</sys_created_on>
+        <sys_id>dbfa6ba81bf2b090046bca22604bcbc8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>christopher.crockett@cloudgoservices.com</sys_updated_by>
+        <sys_updated_on>2021-09-21 22:48:14</sys_updated_on>
+    </sys_claim>
 </record_update>
