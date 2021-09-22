@@ -565,7 +565,7 @@ addToUpdateSetUtils.prototype = {
     },
 	
 	_executeScopeScript: function(tableRec, tableName) {
-		var scriptQuery = "name=addToUpdateSetUtils^sys_scope!=global";
+		var scriptQuery = "name=addToUpdateSetUtils^api_name!=global.addToUpdateSetUtils";
 		return this._executeScript(scriptQuery, tableRec, tableName);
     },
 	
@@ -3792,14 +3792,14 @@ addToUpdateSetUtils.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-10-24 16:31:04</sys_created_on>
         <sys_id>6ba1c8a24f5da740d1676bd18110c79a</sys_id>
-        <sys_mod_count>274</sys_mod_count>
+        <sys_mod_count>276</sys_mod_count>
         <sys_name>addToUpdateSetUtils</sys_name>
-        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_package display_value="ServiceNow Tools" source="277b21671b2d3010d3807596cc4bcb6a">277b21671b2d3010d3807596cc4bcb6a</sys_package>
         <sys_policy/>
         <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
         <sys_update_name>sys_script_include_6ba1c8a24f5da740d1676bd18110c79a</sys_update_name>
-        <sys_updated_by>christopher.crockett@cloudgoservices.com</sys_updated_by>
-        <sys_updated_on>2021-09-21 22:48:14</sys_updated_on>
+        <sys_updated_by>chris.crockett@cloudgoservices.com</sys_updated_by>
+        <sys_updated_on>2021-09-22 20:31:45</sys_updated_on>
     </sys_script_include>
     <sys_claim action="INSERT_OR_UPDATE">
         <claim_owner_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</claim_owner_scope>
