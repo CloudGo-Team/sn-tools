@@ -13,7 +13,21 @@
         <sys_policy/>
         <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
         <sys_update_name>sys_properties_category_m2m_a5fd1fd42f6bcc50c6c690bcf699b675</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-07-30 18:48:27</sys_updated_on>
+        <sys_updated_by>christopher.crockett@cloudgoservices.com</sys_updated_by>
+        <sys_updated_on>2021-09-21 22:48:14</sys_updated_on>
     </sys_properties_category_m2m>
+    <sys_claim action="INSERT_OR_UPDATE">
+        <claim_owner_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</claim_owner_scope>
+        <claim_timestamp>17c0a8b9de90000001</claim_timestamp>
+        <metadata_update_name>sys_properties_category_m2m_a5fd1fd42f6bcc50c6c690bcf699b675</metadata_update_name>
+        <previous_claim_app_version>1.0.0</previous_claim_app_version>
+        <previous_claim_name>ServiceNow Tools</previous_claim_name>
+        <previous_claim_scope>277b21671b2d3010d3807596cc4bcb6a</previous_claim_scope>
+        <sys_created_by>christopher.crockett@cloudgoservices.com</sys_created_by>
+        <sys_created_on>2021-09-21 22:48:14</sys_created_on>
+        <sys_id>13fa6ba81bf2b090046bca22604bcb94</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>christopher.crockett@cloudgoservices.com</sys_updated_by>
+        <sys_updated_on>2021-09-21 22:48:14</sys_updated_on>
+    </sys_claim>
 </record_update>
