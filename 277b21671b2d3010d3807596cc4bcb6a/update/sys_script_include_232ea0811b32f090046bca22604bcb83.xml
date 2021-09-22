@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>global.getDefaultUpdateSetIdForScope</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description>Returns the Sys ID of the default update set for the given scope, or null if none exist&#13;
+&#13;
+This is part of the "Move to Default Update Set" feature</description>
+        <name>getDefaultUpdateSetIdForScope</name>
+        <script><![CDATA[function getDefaultUpdateSetIdForScope(scope){
+	var defaultUpdateSet = new GlideRecord('sys_update_set');
+	defaultUpdateSet.addQuery('is_default', true);
+	defaultUpdateSet.addQuery('state', 'in progress');
+	defaultUpdateSet.addQuery('application', scope);
+	defaultUpdateSet.setLimit(1);
+	defaultUpdateSet.query();
+	defaultUpdateSet.next();
+	
+	// Best case scenario -- there's a default update set for the given scope
+	if (defaultUpdateSet.isValidRecord()) return defaultUpdateSet.sys_id.toString();
+	
+	// Globally scoped apps may fall back to a global default update set
+	var updateAppGr = new GlideRecord('sys_scope');
+	updateAppGr.get(scope);
+	if (updateAppGr.isValidRecord() && updateAppGr.scope == 'global'){
+		return getDefaultUpdateSetIdForScope('global');
+	}
+	
+	// Worst case scenario -- it's a scoped app and there's no default update set
+	return null;
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>christopher.crockett@cloudgoservices.com</sys_created_by>
+        <sys_created_on>2021-09-22 22:22:09</sys_created_on>
+        <sys_id>232ea0811b32f090046bca22604bcb83</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>getDefaultUpdateSetIdForScope</sys_name>
+        <sys_package display_value="ServiceNow Tools" source="277b21671b2d3010d3807596cc4bcb6a">277b21671b2d3010d3807596cc4bcb6a</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
+        <sys_update_name>sys_script_include_232ea0811b32f090046bca22604bcb83</sys_update_name>
+        <sys_updated_by>christopher.crockett@cloudgoservices.com</sys_updated_by>
+        <sys_updated_on>2021-09-22 22:47:22</sys_updated_on>
+    </sys_script_include>
+</record_update>
