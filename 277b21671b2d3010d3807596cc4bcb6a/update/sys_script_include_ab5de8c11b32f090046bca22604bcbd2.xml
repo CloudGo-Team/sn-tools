@@ -10,62 +10,24 @@
 This is part of the "Move to Default Update Set" feature</description>
         <name>getUpdateXmlScope</name>
         <script><![CDATA[function getUpdateXmlScope(updateXmlGr) {
-	var updateObj = gs.xmlToJSON(current.payload);
+	var defaultScope = 'global';
 	
-	var globalScope = 'global';
-	var defaultScope = globalScope;
+	var xmlObj = GlideXMLUtil.parse(updateXmlGr.payload);
+	var foundScope = GlideXMLUtil.getElementValueByTagName(xmlObj, 'sys_scope');
 	
-    function getScope(obj) {
-        if (
-            !obj ||
-            !obj.sys_scope ||
-            !obj.sys_scope.content
-        ) return null;
-
-        return obj.sys_scope.content;
-    }
-
-    function recurse(obj, depth) {
-        // If this object already has some scope info, return it
-        var topObjScope = getScope(obj);
-        if (topObjScope) return [topObjScope, depth];
-
-        // Get the child objects of the current object
-        var keys = Object.keys(obj);
-        var childObjects = keys
-            .filter(function(key) {
-                return typeof obj[key] === 'object';
-            })
-            .reduce(function(memo, nextKey) {
-                return memo.concat(obj[nextKey]);
-            }, []);
-
-        // Recursively check each child object for scope info
-        // Return the match with the least depth
-        var results = childObjects
-            .map(function(child) {
-                return recurse(child, depth + 1);
-            })
-            .sort(function(x, y) {
-                return x[1] < y[1];
-            });
-
-        return results[0] || [null, 9999];
-    }
-
-    return recurse(updateObj, 0)[0] || defaultScope;
+	return foundScope || defaultScope;
 }]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>christopher.crockett@cloudgoservices.com</sys_created_by>
         <sys_created_on>2021-09-22 22:19:38</sys_created_on>
         <sys_id>ab5de8c11b32f090046bca22604bcbd2</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>1</sys_mod_count>
         <sys_name>getUpdateXmlScope</sys_name>
         <sys_package display_value="ServiceNow Tools" source="277b21671b2d3010d3807596cc4bcb6a">277b21671b2d3010d3807596cc4bcb6a</sys_package>
         <sys_policy/>
         <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
         <sys_update_name>sys_script_include_ab5de8c11b32f090046bca22604bcbd2</sys_update_name>
-        <sys_updated_by>christopher.crockett@cloudgoservices.com</sys_updated_by>
-        <sys_updated_on>2021-09-22 22:19:38</sys_updated_on>
+        <sys_updated_by>Chris.Crockett@CloudGoServices.com</sys_updated_by>
+        <sys_updated_on>2021-09-30 16:55:22</sys_updated_on>
     </sys_script_include>
 </record_update>
