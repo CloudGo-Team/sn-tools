@@ -10,7 +10,7 @@
         <path>snd_xplore</path>
         <path_endpoint/>
         <require_csrf>false</require_csrf>
-        <roles>snc_internal</roles>
+        <roles/>
         <script><![CDATA[/*!
   Processor for generating the user interface and handling AJAX calls.
 */
@@ -382,6 +382,7 @@ XploreRunner.prototype.run = function run(options) {
 
     // This is an option from the user or can be set above for dynamic return value
     if (options.support_hoisting) {
+      snd_Xplore.notice('Automatic hoisting enabled.');
       script = '(function () {' + script + '}).call(this)';
     }
 
@@ -564,12 +565,11 @@ XploreRunner.prototype.runScopedScript = function runScopedScript(script, option
     throw 'Unknown scope [' + scopeName + ']';
   })(options.scope);
 
-  var safe_options = {};
-  safe_options = {
-    dotwalk: options.dotwalk,
-    show_props: options.show_props,
-    show_strings: options.show_strings
-  };
+  var safe_options = JSON.stringify(options, function (name, value) {
+	if (name.indexOf('user_data') == -1) {
+      return value;
+	}
+  });
 
   var try_script = '"try {" + $$script + "\\n;} catch (e) { e; }"';
   var scopedScript = '';
@@ -581,7 +581,7 @@ XploreRunner.prototype.runScopedScript = function runScopedScript(script, option
   scopedScript += 'var gse = new GlideScopedEvaluator();\n';
   scopedScript += 'gse.putVariable("user_data", user_data);\n';
   scopedScript += 'var obj = gse.evaluateScript(gr, "script");\n';
-  scopedScript += 'var options = ' + (JSON.stringify(safe_options)) + ';\n';
+  scopedScript += 'var options = ' + safe_options + ';\n';
   scopedScript += 'var x = new global.snd_Xplore();\n';
   scopedScript += 'x.xplore(obj, "snd_Xplore.ObjectReporter", options);\n';
   scopedScript += '$$result = x.reporter.getReport();\n';
@@ -1225,43 +1225,43 @@ function XploreTableHierarchy(table, options) {
         <sys_created_by>james@sharelogic.com</sys_created_by>
         <sys_created_on>2015-09-18 20:32:13</sys_created_on>
         <sys_id>39225f460f66420094f3c09ce1050e91</sys_id>
-        <sys_mod_count>464</sys_mod_count>
+        <sys_mod_count>468</sys_mod_count>
         <sys_name>snd_xplore</sys_name>
         <sys_package display_value="Global" source="global">global</sys_package>
         <sys_policy/>
         <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
         <sys_update_name>sys_processor_39225f460f66420094f3c09ce1050e91</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-07-30 17:58:41</sys_updated_on>
+        <sys_updated_on>2022-03-08 19:25:04</sys_updated_on>
         <type>script</type>
         <xframe_sameorigin>false</xframe_sameorigin>
     </sys_processor>
     <sys_claim action="INSERT_OR_UPDATE">
         <claim_owner_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</claim_owner_scope>
-        <claim_timestamp>17af8917bb40000001</claim_timestamp>
+        <claim_timestamp>17f6afdfd240000001</claim_timestamp>
         <metadata_update_name>sys_processor_39225f460f66420094f3c09ce1050e91</metadata_update_name>
         <previous_claim_app_version>1.0.0</previous_claim_app_version>
         <previous_claim_name>ServiceNow Tools</previous_claim_name>
         <previous_claim_scope>277b21671b2d3010d3807596cc4bcb6a</previous_claim_scope>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2021-07-30 17:58:41</sys_created_on>
-        <sys_id>997c69631ba17010d3807596cc4bcb05</sys_id>
+        <sys_created_on>2022-03-08 19:25:04</sys_created_on>
+        <sys_id>dd97c8361b8601102a58a9b4bd4bcbf0</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-07-30 17:58:41</sys_updated_on>
+        <sys_updated_on>2022-03-08 19:25:04</sys_updated_on>
     </sys_claim>
     <sys_claim action="INSERT_OR_UPDATE">
         <claim_owner_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</claim_owner_scope>
-        <claim_timestamp>17af8917bb00000001</claim_timestamp>
+        <claim_timestamp>17f6afdfd210000001</claim_timestamp>
         <metadata_update_name>sys_processor_39225f460f66420094f3c09ce1050e91</metadata_update_name>
-        <previous_claim_app_version>4.9</previous_claim_app_version>
+        <previous_claim_app_version>4.11</previous_claim_app_version>
         <previous_claim_name>Xplore: Developer Toolkit</previous_claim_name>
         <previous_claim_scope>0f6ab99a0f36060094f3c09ce1050ee8</previous_claim_scope>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2021-07-30 17:58:41</sys_created_on>
-        <sys_id>5d7c69631ba17010d3807596cc4bcb05</sys_id>
+        <sys_created_on>2022-03-08 19:25:04</sys_created_on>
+        <sys_id>9197c8361b8601102a58a9b4bd4bcbf1</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-07-30 17:58:41</sys_updated_on>
+        <sys_updated_on>2022-03-08 19:25:04</sys_updated_on>
     </sys_claim>
 </record_update>

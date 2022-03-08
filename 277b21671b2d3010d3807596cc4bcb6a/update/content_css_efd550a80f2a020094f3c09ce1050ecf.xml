@@ -526,6 +526,13 @@ sup .label-as-badge {&#13;
   padding-left: 12px;&#13;
 }&#13;
 &#13;
+/* Settings */&#13;
+input.xplore-setting.form-control {&#13;
+  width: 80px;&#13;
+  text-align: center;&#13;
+  float: right; &#13;
+}&#13;
+&#13;
 /* fix IE select */&#13;
 select::-ms-expand {&#13;
   display: none;&#13;
@@ -573,43 +580,43 @@ li.L5, li.L6, li.L7, li.L8&#13;
         <sys_created_by>james@sharelogic.com</sys_created_by>
         <sys_created_on>2015-09-13 14:58:52</sys_created_on>
         <sys_id>efd550a80f2a020094f3c09ce1050ecf</sys_id>
-        <sys_mod_count>112</sys_mod_count>
+        <sys_mod_count>113</sys_mod_count>
         <sys_name>snd_xplore</sys_name>
         <sys_package display_value="Global" source="global">global</sys_package>
         <sys_policy/>
         <sys_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</sys_scope>
         <sys_update_name>content_css_efd550a80f2a020094f3c09ce1050ecf</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-07-30 17:58:42</sys_updated_on>
+        <sys_updated_on>2022-03-08 19:25:04</sys_updated_on>
         <type>local</type>
         <url/>
     </content_css>
     <sys_claim action="INSERT_OR_UPDATE">
         <claim_owner_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</claim_owner_scope>
-        <claim_timestamp>17af8917eb10000001</claim_timestamp>
+        <claim_timestamp>17f6afdfe080000001</claim_timestamp>
         <metadata_update_name>content_css_efd550a80f2a020094f3c09ce1050ecf</metadata_update_name>
         <previous_claim_app_version>1.0.0</previous_claim_app_version>
         <previous_claim_name>ServiceNow Tools</previous_claim_name>
         <previous_claim_scope>277b21671b2d3010d3807596cc4bcb6a</previous_claim_scope>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2021-07-30 17:58:42</sys_created_on>
-        <sys_id>9d7c69631ba17010d3807596cc4bcb12</sys_id>
+        <sys_created_on>2022-03-08 19:25:04</sys_created_on>
+        <sys_id>11970c361b8601102a58a9b4bd4bcb13</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-07-30 17:58:42</sys_updated_on>
+        <sys_updated_on>2022-03-08 19:25:04</sys_updated_on>
     </sys_claim>
     <sys_claim action="INSERT_OR_UPDATE">
         <claim_owner_scope display_value="ServiceNow Tools">277b21671b2d3010d3807596cc4bcb6a</claim_owner_scope>
-        <claim_timestamp>17af8917eab0000001</claim_timestamp>
+        <claim_timestamp>17f6afdfe040000001</claim_timestamp>
         <metadata_update_name>content_css_efd550a80f2a020094f3c09ce1050ecf</metadata_update_name>
-        <previous_claim_app_version>4.9</previous_claim_app_version>
+        <previous_claim_app_version>4.11</previous_claim_app_version>
         <previous_claim_name>Xplore: Developer Toolkit</previous_claim_name>
         <previous_claim_scope>0f6ab99a0f36060094f3c09ce1050ee8</previous_claim_scope>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2021-07-30 17:58:42</sys_created_on>
-        <sys_id>517c69631ba17010d3807596cc4bcb13</sys_id>
+        <sys_created_on>2022-03-08 19:25:04</sys_created_on>
+        <sys_id>d1970c361b8601102a58a9b4bd4bcb13</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-07-30 17:58:42</sys_updated_on>
+        <sys_updated_on>2022-03-08 19:25:04</sys_updated_on>
     </sys_claim>
 </record_update>
